@@ -1,0 +1,34 @@
+# This file was generated based on ".graphqlconfig". Do not edit manually.
+
+schema {
+  query: Query
+}
+
+"An Anime"
+type Anime {
+  "Get a list of anime recommendations that explains why the anime has been recommended."
+  from(first: Int = 3): [FromAnimeRecommendation!]!
+  "I am the imageUrl description"
+  imageUrl: String
+  "Get the associated MyAnimeList ID"
+  malId: ID
+  "I am the title description"
+  title: String
+  "I am the url description"
+  url: String
+}
+
+"An Anime recommendation from a viewer perspective that explain why an anime has been recommended"
+type FromAnimeRecommendation {
+  "Get the anime that made this recommendation relevant"
+  anime: Anime!
+  "The higher the score is, the higher it will be recommended"
+  score: Int!
+}
+
+type Query {
+  "Get the animelist of a user"
+  animelist(username: String!): [Anime]!
+  "Get recommendations"
+  recommendations(username: String!): [Anime]!
+}

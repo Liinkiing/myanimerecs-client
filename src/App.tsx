@@ -1,6 +1,30 @@
-import { hot } from "react-hot-loader/root"
-import React, { FC } from "react"
+import {hot} from "react-hot-loader/root"
+import React, {FC} from "react"
 import styled from "styled-components/macro"
+import posed, {PoseGroup} from 'react-pose'
+import {Location, Router} from '@reach/router'
+import Index from 'pages/Index'
+import Route from 'components/Route'
+import About from 'pages/About'
+import AppNav from 'components/ui/AppNav'
+
+const RoutesContainer = posed.div({
+  transition: {duration: 1000},
+  enter: {opacity: 1, zIndex: 1, beforeChildren: true, y: 0 },
+  exit: {opacity: 0, zIndex: -1, y: -10 }
+});
+
+const PosedRouter: FC = ({children}) => (
+  <Location>
+    {({location}) => (
+      <PoseGroup>
+        <RoutesContainer key={location.key}>
+          <Router location={location}>{children}</Router>
+        </RoutesContainer>
+      </PoseGroup>
+    )}
+  </Location>
+);
 
 const AppInner = styled.div`
   
@@ -10,10 +34,13 @@ const App: FC = () => {
   return (
     <AppInner>
       <header>
-        <h1>Header</h1>
+        <AppNav/>
       </header>
       <main>
-        <h2>App content</h2>
+        <PosedRouter>
+          <Route component={Index} path="/"/>
+          <Route component={About} path="/about"/>
+        </PosedRouter>
       </main>
     </AppInner>
   );
