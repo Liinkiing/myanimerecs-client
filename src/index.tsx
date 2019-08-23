@@ -1,6 +1,8 @@
 import "react-hot-loader"
 import React from "react"
 import ReactDOM from "react-dom"
+import { from } from 'apollo-link'
+import DebounceLink from 'apollo-link-debounce'
 import {ApolloClient, HttpLink, IntrospectionFragmentMatcher} from "apollo-boost"
 import { ApolloProvider } from "react-apollo"
 import { ApolloProvider as ApolloHooksProvider } from "@apollo/react-hooks"
@@ -12,15 +14,20 @@ import App from "./App"
 import GlobalStyle from "./styles/global"
 import * as serviceWorker from "./serviceWorker"
 
+const DEFAULT_DEBOUNCE_TIMEOUT = 0
+
 const fragmentMatcher = new IntrospectionFragmentMatcher({
   introspectionQueryResultData
 });
 
 const client = new ApolloClient({
-  link: new HttpLink({ uri: process.env.REACT_APP_GRAPHQL_ENDPOINT || 'http://localhost:4000/graphql' }),
+  link: from([
+    // @ts-ignore
+    new DebounceLink(DEFAULT_DEBOUNCE_TIMEOUT),
+    new HttpLink({ uri: process.env.REACT_APP_GRAPHQL_ENDPOINT || 'http://localhost:4000/graphql' })
+  ]),
   cache: new InMemoryCache({ fragmentMatcher }),
 })
-
 
 ReactDOM.render(
   <ApolloProvider client={client}>

@@ -1200,6 +1200,11 @@
     iterall "^1.1.3"
     uuid "^3.1.0"
 
+"@liinkiing/react-hooks@^1.1.0":
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@liinkiing/react-hooks/-/react-hooks-1.1.0.tgz#5ac693697858858234fc10f17e4e84b471aaa51a"
+  integrity sha512-Or2iO1iI3kp4vdGdT/OUGxNICyKqmuKJ2RgIarTIasDlQE8vblRtbYK9f7yQm6RB6dHVVeWUsXJkk9jNTPLsuw==
+
 "@mrmlnc/readdir-enhanced@^2.2.1":
   version "2.2.1"
   resolved "https://registry.yarnpkg.com/@mrmlnc/readdir-enhanced/-/readdir-enhanced-2.2.1.tgz#524af240d1a360527b730475ecfa1344aa540dde"
@@ -2015,6 +2020,14 @@ apollo-client@^2.6.4:
     tslib "^1.9.3"
     zen-observable "^0.8.0"
 
+apollo-link-debounce@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/apollo-link-debounce/-/apollo-link-debounce-2.1.0.tgz#8bf34988d94ab28d73d23de0cf26777235a6bfd7"
+  integrity sha512-tpAb3558SoZVKL8Y5N1pyrw4ko9eYWGpveKCp1fjfDz8bA4977fyfR4OZdrxwBtTjhYf5wNq2N9YTtKaq3OZIg==
+  dependencies:
+    apollo-link "^1.2.2"
+    zen-observable-ts "^0.8.9"
+
 apollo-link-error@^1.0.3:
   version "1.1.11"
   resolved "https://registry.yarnpkg.com/apollo-link-error/-/apollo-link-error-1.1.11.tgz#7cd363179616fb90da7866cee85cb00ee45d2f3b"
@@ -2042,7 +2055,7 @@ apollo-link-http@^1.3.1:
     apollo-link-http-common "^0.2.14"
     tslib "^1.9.3"
 
-apollo-link@^1.0.0, apollo-link@^1.0.6, apollo-link@^1.2.12, apollo-link@^1.2.3:
+apollo-link@^1.0.0, apollo-link@^1.0.6, apollo-link@^1.2.12, apollo-link@^1.2.2, apollo-link@^1.2.3:
   version "1.2.12"
   resolved "https://registry.yarnpkg.com/apollo-link/-/apollo-link-1.2.12.tgz#014b514fba95f1945c38ad4c216f31bcfee68429"
   integrity sha512-fsgIAXPKThyMVEMWQsUN22AoQI+J/pVXcjRGAShtk97h7D8O+SPskFinCGEkxPeQpE83uKaqafB2IyWdjN+J3Q==
@@ -11564,7 +11577,7 @@ yargs@^13.3.0:
     y18n "^4.0.0"
     yargs-parser "^13.1.1"
 
-zen-observable-ts@^0.8.19:
+zen-observable-ts@^0.8.19, zen-observable-ts@^0.8.9:
   version "0.8.19"
   resolved "https://registry.yarnpkg.com/zen-observable-ts/-/zen-observable-ts-0.8.19.tgz#c094cd20e83ddb02a11144a6e2a89706946b5694"
   integrity sha512-u1a2rpE13G+jSzrg3aiCqXU5tN2kw41b+cBZGmnc+30YimdkKiDj9bTowcB41eL77/17RF/h+393AuVgShyheQ==

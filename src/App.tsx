@@ -1,4 +1,5 @@
 import {hot} from "react-hot-loader/root"
+import {setConfig} from 'react-hot-loader';
 import React, {FC} from "react"
 import styled from "styled-components/macro"
 import posed, {PoseGroup} from 'react-pose'
@@ -7,6 +8,10 @@ import Index from 'pages/Index'
 import Route from 'components/Route'
 import About from 'pages/About'
 import AppNav from 'components/ui/AppNav'
+
+setConfig({
+  reloadHooks: true,
+});
 
 const RoutesContainer = posed.div({
   transition: {duration: 1000},

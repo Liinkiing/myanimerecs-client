@@ -1,0 +1,5 @@
+query Recommendations($username: String!) {
+  recommendations(username: $username) {
+    ...RecommendationsList_recommendation
+  }
+}
