@@ -6,23 +6,41 @@ schema {
 
 "An Anime"
 type Anime {
+  airing: Boolean!
+  broadcast: String
+  description: String
+  duration: String
+  endingThemes: [String!]!
+  episodesCount: Int!
   "I am the imageUrl description"
   imageUrl: String
   "Get the associated MyAnimeList ID"
   malId: ID
+  openingThemes: [String!]!
+  popularity: Int!
+  rank: Int!
+  rating: String!
   "Get a list of anime recommendations that explains why the anime has been recommended."
   related(first: Int = 3): [RelatedAnimeRecommendations!]!
+  score: Float!
+  slug: String!
+  status: String!
+  synonyms: [String!]!
   "I am the title description"
   title: String
+  trailerUrl: String
+  type: String!
   "I am the url description"
   url: String
 }
 
 type Query {
+  "Get anime by its slug"
+  anime(slug: String!): Anime
   "Get the animelist of a user"
-  animelist(username: String!): [Anime]!
+  animelist(username: String!): [Anime!]!
   "Get recommendations"
-  recommendations(username: String!): [Anime]!
+  recommendations(first: Int = 100, username: String!): [Anime!]!
 }
 
 "An Anime recommendation from a viewer perspective that explain why an anime has been recommended"

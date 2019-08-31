@@ -8,6 +8,9 @@ import Index from 'pages/Index'
 import Route from 'components/Route'
 import About from 'pages/About'
 import AppNav from 'components/ui/AppNav'
+import AnimeDetail from 'pages/anime/AnimeDetail'
+import AppStore from 'store/AppStore'
+import {observer} from 'mobx-react-lite'
 
 setConfig({
   reloadHooks: true,
@@ -23,7 +26,7 @@ const PosedRouter: FC = ({children}) => (
   <Location>
     {({location}) => (
       <PoseGroup>
-        <RoutesContainer key={location.key}>
+        <RoutesContainer>
           <Router location={location}>{children}</Router>
         </RoutesContainer>
       </PoseGroup>
@@ -42,15 +45,18 @@ const App: FC = () => {
         <AppNav/>
       </header>
       <main>
-        <PosedRouter>
-          <Route component={Index} path="/"/>
+        <Router>
+          {!AppStore.hasSearched && <Route component={AnimeDetail} path="/anime/:slug"/>}
+          <Route component={Index} path="/*"/>
           <Route component={About} path="/about"/>
-        </PosedRouter>
+        </Router>
       </main>
     </AppInner>
   );
 }
 
 export default hot(
-  App
+  observer(
+    App
+  )
 )

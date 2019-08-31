@@ -2,5 +2,13 @@ fragment RecommendationsList_recommendation on Anime {
   title
   url
   malId
+  description
+  slug
   imageUrl
+  related {
+    score
+    anime {
+      title
+    }
+  }
 }

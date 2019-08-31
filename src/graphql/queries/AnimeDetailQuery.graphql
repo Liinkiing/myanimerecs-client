@@ -1,0 +1,5 @@
+query AnimeDetail($slug: String!) {
+  anime(slug: $slug) {
+    ...RecommendationsList_recommendation
+  }
+}

@@ -4,7 +4,7 @@ export const breakpoint = (size: 'mobile' | 'tablet' | 'desktop', innerCss: Flat
   let px;
   switch (size) {
     case "mobile":
-      px = 320;
+      px = 420;
       break;
     case "tablet":
       px = 768;
@@ -15,7 +15,7 @@ export const breakpoint = (size: 'mobile' | 'tablet' | 'desktop', innerCss: Flat
   }
 
   return css`
-    @media screen and (min-width: ${px}px) {
+    @media screen and (max-width: ${px}px) {
       ${innerCss}
     }
   `

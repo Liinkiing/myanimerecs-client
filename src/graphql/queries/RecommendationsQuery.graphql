@@ -1,5 +1,5 @@
-query Recommendations($username: String!) {
-  recommendations(username: $username) {
+query Recommendations($username: String!, $first: Int) {
+  recommendations(username: $username, first: $first) {
     ...RecommendationsList_recommendation
   }
 }
