@@ -3,6 +3,7 @@ import {motion, useInvertedScale, useMotionValue} from 'framer-motion'
 import styled, {css} from 'styled-components'
 import {RecommendationsList_RecommendationFragment} from 'graphql/components'
 import {navigate} from '@reach/router'
+import {breakpoint} from 'styles/module/mixins'
 
 export const openSpring = {type: "spring", stiffness: 200, damping: 30};
 export const closeSpring = {type: "spring", stiffness: 300, damping: 35};
@@ -39,7 +40,7 @@ const AnimeItemInner = styled(motion.div)<{ selected: boolean }>`
     position: sticky;
     top: 0;
   }
-  & > img {
+  & > img.background {
     transition: filter 1s ease-in-out;
     z-index: 0;
     left: 0;
@@ -80,32 +81,67 @@ const AnimeItemContentContainer = styled(motion.div)`
   transform-origin: bottom center;
 `
 
+const AnimeCover = styled.img`
+  float: left;
+  margin: -100px 20px 0 0;
+  padding-bottom: 20px;
+  ${breakpoint('mobile', css`
+    width: 126px;
+  `)}
+`
+
+const AnimeBanner = styled(motion.img)`
+  position: fixed;
+  height: 50vh;
+  width: 100%;
+  object-fit: cover;
+`
+
 interface AnimeProps extends Pick<React.HTMLAttributes<HTMLElement>, 'className'> {
   readonly anime: RecommendationsList_RecommendationFragment
 }
 
 export const AnimeItemDetail: React.FC<{anime: RecommendationsList_RecommendationFragment }> = ({ anime }) => (
   <React.Fragment>
-    <motion.img src={anime.imageUrl || ''} alt=""
+    <motion.img className="background" src={anime.imageUrl || ''} alt=""
                 variants={{
                   show: {position: 'absolute', scale: 1.1},
                   selected: {position: 'fixed', scale: 1.2}
                 }}
     />
+    <AnimeBanner
+      initial={{
+        opacity: 0
+      }}
+      variants={{
+        show: {opacity: 0, transition: { delay: 0 }},
+        selected: {opacity: 1, transition: { delay: 2 }}
+      }}
+      src={anime.bannerImageUrl!}
+    />
     <motion.h2
       variants={{
-        show: {padding: 20, fontSize: '16px', fontWeight: 400},
-        selected: {padding: 40, paddingBottom: '40vh', fontSize: '32px', fontWeight: 700}
+        show: {padding: 20, fontSize: '16px', fontWeight: 400, maxHeight: '100%'},
+        selected: {padding: 40, paddingBottom: '40vh', fontSize: '32px', fontWeight: 700, maxHeight: '50vh'}
       }}
     >{anime.title}</motion.h2>
     <AnimeItemContentContainer
-      transition={{duration: 0.4}}
-      initial={{scaleY: 0}}
+      transition={{duration: 0.8}}
+      initial={{scaleY: 0, opacity: 0}}
       variants={{
-        show: {scaleY: 0, height: '100%'},
-        selected: {scaleY: 1, height: 'auto', transition: { when: 'afterChildren'}}
+        show: {scaleY: 0, height: '100%', opacity: 0},
+        selected: {scaleY: 1, height: 'auto', opacity: 1, transition: { when: 'afterChildren'}}
       }}
-    >{anime.description}</AnimeItemContentContainer>
+    >
+      <AnimeCover src={anime.imageUrl || '#'}/>
+      <p>{anime.description}</p>
+      <p>{anime.description}</p>
+      <p>{anime.description}</p>
+      <p>{anime.description}</p>
+      <p>{anime.description}</p>
+      <p>{anime.description}</p>
+      <p>{anime.description}</p>
+    </AnimeItemContentContainer>
   </React.Fragment>
 )
 
@@ -150,8 +186,8 @@ const AnimeItem: React.FC<AnimeProps> = ({anime, children, ...rest}) => {
       }}
       ref={item}
       selected={selected}
-      whileHover={{scale: selected ? 1 : 1.05, opacity: 1, boxShadow: '0 10px 30px rgba(0,0,0,0.16)'}}
-      whileTap={{scale: selected ? 1 : 1.05, opacity: 1, boxShadow: '0 10px 30px rgba(0,0,0,0.16)'}}
+      whileHover={{opacity: 1, boxShadow: '0 10px 30px rgba(0,0,0,0.16)'}}
+      whileTap={{opacity: 1, boxShadow: '0 10px 30px rgba(0,0,0,0.16)'}}
       style={{zIndex, scaleX, scaleY}}
       initial={{opacity: 0.5}}
       layoutTransition={selected ? openSpring : closeSpring}

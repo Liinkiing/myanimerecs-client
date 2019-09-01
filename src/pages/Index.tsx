@@ -40,7 +40,6 @@ const Index: React.FC = () => {
   const {hasSearched} = AppStore
   return (
     <IndexInner>
-      <h1>Je suis la homepage</h1>
       <Router>
         {hasSearched && <Route component={RecommendationsForm} path="/anime/:slug"/>}
         <Route component={RecommendationsForm} path="/"/>

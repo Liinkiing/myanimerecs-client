@@ -42,6 +42,9 @@ export default createGlobalStyle`
       grid-template-columns: 100%;
     `)}
   }
+  .search-results {
+    padding-top: 120px;
+  }
   .col--row--2x {
      grid-row-end: span 2;
   }

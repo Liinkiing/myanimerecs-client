@@ -21,12 +21,10 @@ export type Anime = {
   __typename?: 'Anime',
   /** Get the associated MyAnimeList ID */
   readonly malId: Maybe<Scalars['ID']>,
-  /** I am the title description */
   readonly title: Maybe<Scalars['String']>,
-  /** I am the url description */
   readonly url: Maybe<Scalars['String']>,
-  /** I am the imageUrl description */
   readonly imageUrl: Maybe<Scalars['String']>,
+  readonly bannerImageUrl: Maybe<Scalars['String']>,
   /** Get a list of anime recommendations that explains why the anime has been recommended. */
   readonly related: ReadonlyArray<RelatedAnimeRecommendations>,
   readonly description: Maybe<Scalars['String']>,
@@ -89,7 +87,7 @@ export type RelatedAnimeRecommendations = {
 };
 export type RecommendationsList_RecommendationFragment = (
   { readonly __typename?: 'Anime' }
-  & Pick<Anime, 'title' | 'url' | 'malId' | 'description' | 'slug' | 'imageUrl'>
+  & Pick<Anime, 'title' | 'url' | 'malId' | 'bannerImageUrl' | 'description' | 'slug' | 'imageUrl'>
   & { readonly related: ReadonlyArray<(
     { readonly __typename?: 'RelatedAnimeRecommendations' }
     & Pick<RelatedAnimeRecommendations, 'score'>
@@ -129,6 +127,7 @@ export const RecommendationsList_RecommendationFragmentDoc = gql`
   title
   url
   malId
+  bannerImageUrl
   description
   slug
   imageUrl

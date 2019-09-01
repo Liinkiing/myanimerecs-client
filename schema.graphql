@@ -7,12 +7,12 @@ schema {
 "An Anime"
 type Anime {
   airing: Boolean!
+  bannerImageUrl: String
   broadcast: String
   description: String
   duration: String
   endingThemes: [String!]!
   episodesCount: Int!
-  "I am the imageUrl description"
   imageUrl: String
   "Get the associated MyAnimeList ID"
   malId: ID
@@ -26,11 +26,9 @@ type Anime {
   slug: String!
   status: String!
   synonyms: [String!]!
-  "I am the title description"
   title: String
   trailerUrl: String
   type: String!
-  "I am the url description"
   url: String
 }
 

@@ -42,7 +42,7 @@ const App: FC = () => {
   return (
     <AppInner>
       <header>
-        <AppNav/>
+        {/*<AppNav/>*/}
       </header>
       <main>
         <Router>
