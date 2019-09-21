@@ -3,7 +3,7 @@ import {dark, green, white} from 'styles/module/colors'
 import bootstrap from 'styles/bootstrap'
 import {DEFAULT_TRANSITION} from 'styles/module/variables'
 import {darken} from 'polished'
-import {breakpoint} from 'styles/module/mixins'
+import {breakpoint, customScrollbar} from 'styles/module/mixins'
 
 export default createGlobalStyle`
   ${bootstrap};
@@ -20,6 +20,7 @@ export default createGlobalStyle`
       overflow: hidden;
       height: 100vh;
     }
+    ${customScrollbar};
   }
   
   a {

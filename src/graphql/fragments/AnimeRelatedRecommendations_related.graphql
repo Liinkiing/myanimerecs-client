@@ -1,0 +1,9 @@
+fragment AnimeRelatedRecommendations_related on RelatedAnimeRecommendations {
+  score
+  anime {
+    title {
+      english
+      japanese
+    }
+  }
+}

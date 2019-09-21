@@ -2,7 +2,6 @@ import React from 'react'
 import styled from 'styled-components/macro'
 import {RouteComponentProps} from '@reach/router'
 import {useAnimeDetailQuery} from 'graphql/components'
-import {AnimeItemDetail} from 'components/anime/AnimeItem'
 
 const AnimeDetailInner = styled.div`
   
@@ -22,7 +21,6 @@ const AnimeDetail: React.FC<Props> = ({slug}) => {
     console.log(data)
     return (
       <AnimeDetailInner>
-        <AnimeItemDetail anime={data.anime}/>
       </AnimeDetailInner>
     )
   }

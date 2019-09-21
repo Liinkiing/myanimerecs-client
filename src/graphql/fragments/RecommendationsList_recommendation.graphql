@@ -1,5 +1,8 @@
 fragment RecommendationsList_recommendation on Anime {
-  title
+  title {
+    english
+    japanese
+  }
   url
   malId
   bannerImageUrl
@@ -7,9 +10,6 @@ fragment RecommendationsList_recommendation on Anime {
   slug
   imageUrl
   related {
-    score
-    anime {
-      title
-    }
+    ...AnimeRelatedRecommendations_related
   }
 }

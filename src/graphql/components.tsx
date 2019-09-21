@@ -21,7 +21,7 @@ export type Anime = {
   __typename?: 'Anime',
   /** Get the associated MyAnimeList ID */
   readonly malId: Maybe<Scalars['ID']>,
-  readonly title: Maybe<Scalars['String']>,
+  readonly title: AnimeTitle,
   readonly url: Maybe<Scalars['String']>,
   readonly imageUrl: Maybe<Scalars['String']>,
   readonly bannerImageUrl: Maybe<Scalars['String']>,
@@ -49,6 +49,12 @@ export type Anime = {
 /** An Anime */
 export type AnimeRelatedArgs = {
   first?: Maybe<Scalars['Int']>
+};
+
+export type AnimeTitle = {
+  __typename?: 'AnimeTitle',
+  readonly english: Scalars['String'],
+  readonly japanese: Scalars['String'],
 };
 
 export type Query = {
@@ -85,17 +91,27 @@ export type RelatedAnimeRecommendations = {
   /** The higher the score is, the higher it will be recommended */
   readonly score: Scalars['Int'],
 };
+export type AnimeRelatedRecommendations_RelatedFragment = (
+  { readonly __typename?: 'RelatedAnimeRecommendations' }
+  & Pick<RelatedAnimeRecommendations, 'score'>
+  & { readonly anime: (
+    { readonly __typename?: 'Anime' }
+    & { readonly title: (
+      { readonly __typename?: 'AnimeTitle' }
+      & Pick<AnimeTitle, 'english' | 'japanese'>
+    ) }
+  ) }
+);
+
 export type RecommendationsList_RecommendationFragment = (
   { readonly __typename?: 'Anime' }
-  & Pick<Anime, 'title' | 'url' | 'malId' | 'bannerImageUrl' | 'description' | 'slug' | 'imageUrl'>
-  & { readonly related: ReadonlyArray<(
-    { readonly __typename?: 'RelatedAnimeRecommendations' }
-    & Pick<RelatedAnimeRecommendations, 'score'>
-    & { readonly anime: (
-      { readonly __typename?: 'Anime' }
-      & Pick<Anime, 'title'>
-    ) }
-  )> }
+  & Pick<Anime, 'url' | 'malId' | 'bannerImageUrl' | 'description' | 'slug' | 'imageUrl'>
+  & { readonly title: (
+    { readonly __typename?: 'AnimeTitle' }
+    & Pick<AnimeTitle, 'english' | 'japanese'>
+  ), readonly related: ReadonlyArray<{ readonly __typename?: 'RelatedAnimeRecommendations' }
+    & AnimeRelatedRecommendations_RelatedFragment
+  > }
 );
 
 export type AnimeDetailQueryVariables = {
@@ -122,9 +138,23 @@ export type RecommendationsQuery = (
     & RecommendationsList_RecommendationFragment
   > }
 );
+export const AnimeRelatedRecommendations_RelatedFragmentDoc = gql`
+    fragment AnimeRelatedRecommendations_related on RelatedAnimeRecommendations {
+  score
+  anime {
+    title {
+      english
+      japanese
+    }
+  }
+}
+    `;
 export const RecommendationsList_RecommendationFragmentDoc = gql`
     fragment RecommendationsList_recommendation on Anime {
-  title
+  title {
+    english
+    japanese
+  }
   url
   malId
   bannerImageUrl
@@ -132,13 +162,10 @@ export const RecommendationsList_RecommendationFragmentDoc = gql`
   slug
   imageUrl
   related {
-    score
-    anime {
-      title
-    }
+    ...AnimeRelatedRecommendations_related
   }
 }
-    `;
+    ${AnimeRelatedRecommendations_RelatedFragmentDoc}`;
 export const AnimeDetailDocument = gql`
     query AnimeDetail($slug: String!) {
   anime(slug: $slug) {

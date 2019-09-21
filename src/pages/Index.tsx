@@ -13,29 +13,6 @@ const IndexInner = styled.div`
   
 `
 
-styled(motion.div)`
-  width: 120px;
-  height: 120px;
-  background: whitesmoke;
-  border-radius: 20px;
-
-`
-
-styled(motion.div)`
-  padding: 20px;
-  display: flex;
-  overflow: hidden;
-  justify-content: space-around;
-  &:hover {
-    cursor: pointer;
-  }
-`
-
-styled(Tab.Title)`
-  background: red;
-`
-
-
 const Index: React.FC = () => {
   const {hasSearched} = AppStore
   return (

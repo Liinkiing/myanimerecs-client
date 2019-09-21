@@ -26,10 +26,15 @@ type Anime {
   slug: String!
   status: String!
   synonyms: [String!]!
-  title: String
+  title: AnimeTitle!
   trailerUrl: String
   type: String!
   url: String
+}
+
+type AnimeTitle {
+  english: String!
+  japanese: String!
 }
 
 type Query {

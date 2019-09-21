@@ -1,5 +1,5 @@
 import React, {useCallback, useRef} from 'react'
-import styled from 'styled-components/macro'
+import styled, {css} from 'styled-components/macro'
 import {motion} from 'framer-motion'
 import {useInput} from '@liinkiing/react-hooks'
 import {RecommendationsQuery, useRecommendationsLazyQuery} from 'graphql/components'
@@ -8,6 +8,9 @@ import AppStore from 'store/AppStore'
 import NeutralLink from 'components/ui/NeutralLink'
 import {observer} from 'mobx-react-lite'
 import Loader from 'components/ui/Loader'
+import {breakpoint} from 'styles/module/mixins'
+import {RouteComponentProps} from '@reach/router'
+import useHistoryLocation from 'hooks/useHistoryLocation'
 
 const RecommendationsFormInner = styled(motion.form)`
   
@@ -27,7 +30,13 @@ const getClassnames = (index: number) => {
   return classes
 }
 
-const RecommendationsList = React.memo<{ recommendations: RecommendationsQuery['recommendations'] }>(({recommendations}) => {
+interface RecommendationListProps {
+  recommendations: RecommendationsQuery['recommendations']
+}
+
+const RecommendationsList = React.memo<RecommendationListProps>(({recommendations}) => {
+  const { href } = useHistoryLocation()
+
   return (
     <motion.div
       animate="show"
@@ -38,11 +47,18 @@ const RecommendationsList = React.memo<{ recommendations: RecommendationsQuery['
     >
       {recommendations.map((recommendation, i) =>
           <div className={getClassnames(i).join(' ') + ' anime'} key={recommendation.malId!}>
-            <NeutralLink to={`/anime/${recommendation.slug}`}>
+            {/*<NeutralLink to={`/anime/${recommendation.slug}`}*/}
+            {/*  onClick={(event => {*/}
+            {/*    if(href.includes(recommendation.slug)) {*/}
+            {/*      event.preventDefault()*/}
+            {/*    }*/}
+            {/*  })}*/}
+            {/*>*/}
               <AnimeItem
+                isSelected={href.includes(recommendation.slug)}
                 anime={recommendation}
               />
-            </NeutralLink>
+            {/*</NeutralLink>*/}
           </div>
       )}
     </motion.div>
@@ -93,11 +109,13 @@ const SearchContainer = styled(motion.div)`
   ${SearchInput} {
     flex: 1;
   }
+  ${breakpoint('mobile', css`
+    width: 90%;
+  `)}
 `
 
 const RecommendationsForm: React.FC = () => {
   const username = useInput('')
-  const formKey = useRef(rnd())
   const [getRecommendations, {loading, data}] = useRecommendationsLazyQuery()
   const onFormSubmit = useCallback<React.FormEventHandler>(e => {
     e.preventDefault()
@@ -112,7 +130,6 @@ const RecommendationsForm: React.FC = () => {
       }
     })
     AppStore.setHasSearched(true)
-    formKey.current = rnd()
   }, [username.value, getRecommendations])
 
   return (
@@ -139,7 +156,7 @@ const RecommendationsForm: React.FC = () => {
         </SearchButton>}
       </SearchContainer>
       {!loading && data && data.recommendations &&
-      <RecommendationsList key={formKey.current} recommendations={data.recommendations}/>}
+      <RecommendationsList recommendations={data.recommendations}/>}
     </RecommendationsFormInner>
   )
 }

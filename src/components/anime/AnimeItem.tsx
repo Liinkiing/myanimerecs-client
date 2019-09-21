@@ -1,12 +1,26 @@
-import React, {useEffect, useRef, useState} from 'react'
+import React, {useEffect, useRef} from 'react'
 import {motion, useInvertedScale, useMotionValue} from 'framer-motion'
 import styled, {css} from 'styled-components'
 import {RecommendationsList_RecommendationFragment} from 'graphql/components'
-import {navigate} from '@reach/router'
-import {breakpoint} from 'styles/module/mixins'
+import {breakpoint, customScrollbar} from 'styles/module/mixins'
+import AnimeRelatedRecommendations from 'components/recommendations/AnimeRelatedRecommendations'
+import NeutralLink from 'components/ui/NeutralLink'
 
 export const openSpring = {type: "spring", stiffness: 200, damping: 30};
 export const closeSpring = {type: "spring", stiffness: 300, damping: 35};
+
+const GoToAnimeLink = styled(NeutralLink).attrs({
+  className: 'anime__link'
+})`
+  position:absolute;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+`
 
 const AnimeItemInner = styled(motion.div)<{ selected: boolean }>`
   width: 100%;
@@ -17,6 +31,9 @@ const AnimeItemInner = styled(motion.div)<{ selected: boolean }>`
   overflow: hidden;
   display: flex;
   flex-direction: column;
+  & a.close-button {
+    z-index: 10;
+  }
   &:after {
       transition: opacity 1.5s ease-in-out;
       content: '';
@@ -32,9 +49,6 @@ const AnimeItemInner = styled(motion.div)<{ selected: boolean }>`
       ${props => props.selected && css`
         opacity: 0.7;
       `};
-  }
-  &:hover {
-    cursor: pointer;
   }
   & > h2 {
     position: sticky;
@@ -61,6 +75,7 @@ const AnimeItemInner = styled(motion.div)<{ selected: boolean }>`
     }
   }
   ${props => props.selected && css`
+    cursor: auto;
     top: 0;
     left: 0;
     right: 0;
@@ -83,8 +98,9 @@ const AnimeItemContentContainer = styled(motion.div)`
 
 const AnimeCover = styled.img`
   float: left;
-  margin: -100px 20px 0 0;
-  padding-bottom: 20px;
+  border-radius: 6px;
+  margin: -100px 20px 16px 0;
+  box-shadow: 0 10px 40px #00000021;
   ${breakpoint('mobile', css`
     width: 126px;
   `)}
@@ -97,62 +113,36 @@ const AnimeBanner = styled(motion.img)`
   object-fit: cover;
 `
 
+const BackIcon = styled(motion.span)`
+  width: 16px;
+  height: 16px;
+  margin-right: 10px;
+  position: fixed;
+  top: 48px;
+  left: 10px;
+  & > img {
+    width: 100%;
+    height: 100%;
+  }
+`
+
+const AnimeTitle = styled(motion.h2)`
+  display: flex;
+  align-items: center;
+`
+
 interface AnimeProps extends Pick<React.HTMLAttributes<HTMLElement>, 'className'> {
-  readonly anime: RecommendationsList_RecommendationFragment
+  readonly anime: RecommendationsList_RecommendationFragment,
+  readonly isSelected: boolean,
 }
 
-export const AnimeItemDetail: React.FC<{anime: RecommendationsList_RecommendationFragment }> = ({ anime }) => (
-  <React.Fragment>
-    <motion.img className="background" src={anime.imageUrl || ''} alt=""
-                variants={{
-                  show: {position: 'absolute', scale: 1.1},
-                  selected: {position: 'fixed', scale: 1.2}
-                }}
-    />
-    <AnimeBanner
-      initial={{
-        opacity: 0
-      }}
-      variants={{
-        show: {opacity: 0, transition: { delay: 0 }},
-        selected: {opacity: 1, transition: { delay: 2 }}
-      }}
-      src={anime.bannerImageUrl!}
-    />
-    <motion.h2
-      variants={{
-        show: {padding: 20, fontSize: '16px', fontWeight: 400, maxHeight: '100%'},
-        selected: {padding: 40, paddingBottom: '40vh', fontSize: '32px', fontWeight: 700, maxHeight: '50vh'}
-      }}
-    >{anime.title}</motion.h2>
-    <AnimeItemContentContainer
-      transition={{duration: 0.8}}
-      initial={{scaleY: 0, opacity: 0}}
-      variants={{
-        show: {scaleY: 0, height: '100%', opacity: 0},
-        selected: {scaleY: 1, height: 'auto', opacity: 1, transition: { when: 'afterChildren'}}
-      }}
-    >
-      <AnimeCover src={anime.imageUrl || '#'}/>
-      <p>{anime.description}</p>
-      <p>{anime.description}</p>
-      <p>{anime.description}</p>
-      <p>{anime.description}</p>
-      <p>{anime.description}</p>
-      <p>{anime.description}</p>
-      <p>{anime.description}</p>
-    </AnimeItemContentContainer>
-  </React.Fragment>
-)
-
-const AnimeItem: React.FC<AnimeProps> = ({anime, children, ...rest}) => {
-  const [selected, setSelected] = useState(false)
-  const zIndex = useMotionValue(selected ? 2 : 0);
+const AnimeItem: React.FC<AnimeProps> = ({anime, isSelected, children, ...rest}) => {
+  const zIndex = useMotionValue(isSelected ? 2 : 0);
   const {scaleX, scaleY} = useInvertedScale()
   const item = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    if (selected) {
+    if (isSelected) {
       if (!document.body.classList.contains('overflow')) {
         document.body.classList.add('overflow')
       }
@@ -166,14 +156,13 @@ const AnimeItem: React.FC<AnimeProps> = ({anime, children, ...rest}) => {
       if (item.current) {
         item.current.scrollTop = 0
       }
-      navigate('/')
     }
-  }, [selected])
+  }, [isSelected])
 
   const checkZIndex = (latest: any) => {
-    if (selected) {
+    if (isSelected) {
       zIndex.set(2);
-    } else if (!selected && latest.scaleX < 1.01) {
+    } else if (!isSelected && latest.scaleX < 1.01) {
       zIndex.set(0);
     }
   }
@@ -181,17 +170,14 @@ const AnimeItem: React.FC<AnimeProps> = ({anime, children, ...rest}) => {
   return (
     <AnimeItemInner
       {...rest}
-      onClick={() => {
-        setSelected(s => !s)
-      }}
       ref={item}
-      selected={selected}
+      selected={isSelected}
       whileHover={{opacity: 1, boxShadow: '0 10px 30px rgba(0,0,0,0.16)'}}
       whileTap={{opacity: 1, boxShadow: '0 10px 30px rgba(0,0,0,0.16)'}}
       style={{zIndex, scaleX, scaleY}}
       initial={{opacity: 0.5}}
-      layoutTransition={selected ? openSpring : closeSpring}
-      animate={selected ? 'selected' : 'show'}
+      layoutTransition={isSelected ? openSpring : closeSpring}
+      animate={isSelected ? 'selected' : 'show'}
       onUpdate={checkZIndex}
       variants={{
         show: {opacity: 0.5, width: 'auto', borderRadius: '3px', overflowY: 'hidden'},
@@ -203,7 +189,70 @@ const AnimeItem: React.FC<AnimeProps> = ({anime, children, ...rest}) => {
         }
       }}
       key={anime.malId!}>
-        <AnimeItemDetail anime={anime}/>
+      {!isSelected && <GoToAnimeLink to={`/anime/${anime.slug}`}/>}
+      <motion.img className="background" src={anime.imageUrl || ''} alt=""
+                  variants={{
+                    show: {position: 'absolute', scale: 1.1},
+                    selected: {position: 'fixed', scale: 1.2}
+                  }}
+      />
+      <AnimeBanner
+        initial={{
+          opacity: 0
+        }}
+        variants={{
+          show: {opacity: 0, transition: {delay: 0}, display: 'none'},
+          selected: {opacity: 1, transition: {delay: 2}, display: 'block'}
+        }}
+        src={anime.bannerImageUrl!}
+      />
+      <NeutralLink className="close-button" to="/">
+        <BackIcon
+          initial="show"
+          variants={{
+            show: {opacity: 0, x: -40, display: 'none', transition: {delay: 0}},
+            selected: {opacity: 1, x: 0, display: 'inline-flex', transition: {delay: 2}}
+          }}
+        >
+          <img src={require('assets/icons/back.svg')} alt=""/>
+        </BackIcon>
+      </NeutralLink>
+      <AnimeTitle
+        initial="show"
+        variants={{
+          show: {
+            padding: '20px 20px 20px 20px',
+            marginBottom: 0,
+            paddingBottom: undefined,
+            fontSize: '16px',
+            fontWeight: 400,
+            maxHeight: '100%'
+          },
+          selected: {
+            padding: '40px 40px 0px 40px',
+            marginBottom: '30vh',
+            fontSize: '32px',
+            fontWeight: 700,
+            maxHeight: '50vh'
+          }
+        }}
+      >
+        {anime.title.english}
+      </AnimeTitle>
+      {!isSelected && anime.related && anime.related.length > 0 &&
+      <AnimeRelatedRecommendations related={anime.related}/>
+      }
+      <AnimeItemContentContainer
+        transition={{duration: 0.3}}
+        initial={{scaleY: 0, opacity: 0}}
+        variants={{
+          show: {scaleY: 0, height: '100%', opacity: 0, display: 'none'},
+          selected: {scaleY: 1, height: 'auto', opacity: 1, display: 'block'}
+        }}
+      >
+        <AnimeCover src={anime.imageUrl || '#'}/>
+        <p>{anime.description}</p>
+      </AnimeItemContentContainer>
     </AnimeItemInner>
   )
 }

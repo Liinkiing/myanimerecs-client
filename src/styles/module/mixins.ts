@@ -20,3 +20,20 @@ export const breakpoint = (size: 'mobile' | 'tablet' | 'desktop', innerCss: Flat
     }
   `
 }
+
+export const customScrollbar = css`
+    &::-webkit-scrollbar {
+      width: 0.5rem;
+      padding-right: 10px;
+    }
+
+    &::-webkit-scrollbar-track {
+      display: none;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      border-radius: 10px;
+      position:absolute;
+      background-color: rgba(0, 0, 0, 0.3);
+    }
+`
