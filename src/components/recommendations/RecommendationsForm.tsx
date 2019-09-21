@@ -1,22 +1,17 @@
-import React, {useCallback, useRef} from 'react'
+import React, {useCallback} from 'react'
 import styled, {css} from 'styled-components/macro'
 import {motion} from 'framer-motion'
 import {useInput} from '@liinkiing/react-hooks'
 import {RecommendationsQuery, useRecommendationsLazyQuery} from 'graphql/components'
-import AnimeItem from 'components/anime/AnimeItem'
+import AnimeItem from 'components/anime/item'
 import AppStore from 'store/AppStore'
-import NeutralLink from 'components/ui/NeutralLink'
-import {observer} from 'mobx-react-lite'
 import Loader from 'components/ui/Loader'
 import {breakpoint} from 'styles/module/mixins'
-import {RouteComponentProps} from '@reach/router'
 import useHistoryLocation from 'hooks/useHistoryLocation'
 
 const RecommendationsFormInner = styled(motion.form)`
   
 `
-
-const rnd = () => Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
 
 const getClassnames = (index: number) => {
   const classes: string[] = []
@@ -47,18 +42,10 @@ const RecommendationsList = React.memo<RecommendationListProps>(({recommendation
     >
       {recommendations.map((recommendation, i) =>
           <div className={getClassnames(i).join(' ') + ' anime'} key={recommendation.malId!}>
-            {/*<NeutralLink to={`/anime/${recommendation.slug}`}*/}
-            {/*  onClick={(event => {*/}
-            {/*    if(href.includes(recommendation.slug)) {*/}
-            {/*      event.preventDefault()*/}
-            {/*    }*/}
-            {/*  })}*/}
-            {/*>*/}
               <AnimeItem
                 isSelected={href.includes(recommendation.slug)}
                 anime={recommendation}
               />
-            {/*</NeutralLink>*/}
           </div>
       )}
     </motion.div>
