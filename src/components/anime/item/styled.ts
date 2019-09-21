@@ -1,7 +1,8 @@
-import styled, {css} from 'styled-components'
+import styled, {css} from 'styled-components/macro'
 import NeutralLink from 'components/ui/NeutralLink'
 import {motion} from 'framer-motion'
-import {breakpoint} from 'styles/module/mixins'
+import {breakpoint, mbBreakpoint} from 'styles/module/mixins'
+import {AnimeInformationsInner} from 'components/ui/anime/informations/styled'
 
 export const GoToAnimeLink = styled(NeutralLink).attrs({
   className: 'anime__link'
@@ -90,11 +91,38 @@ export const AnimeItemContentContainer = styled(motion.div)`
   transform-origin: bottom center;
 `
 
+export const AnimeItemContentHeaderInformations = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  ${mbBreakpoint('mobile', css`
+    flex-direction: row;
+    justify-content: initial;
+    & > * + * {
+      margin-left: 20px;
+    }
+  `)}
+`
+
+export const AnimeItemContentHeaderContainer = styled.header`
+  display: flex;
+  margin-top: -100px;
+  margin-bottom: 20px;
+  position: relative;
+  align-items: center;
+  ${AnimeItemContentHeaderInformations} {
+    flex: 1;
+    margin-left: 10px;
+    align-self: stretch;
+    ${mbBreakpoint('mobile', css`
+      align-self: start;
+    `)}
+  }
+`
+
 export const AnimeCover = styled.img`
-  float: left;
   border-radius: 6px;
-  margin: -100px 20px 16px 0;
-  box-shadow: 0 10px 40px #00000021;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.35);
   ${breakpoint('mobile', css`
     width: 126px;
   `)}
@@ -105,6 +133,10 @@ export const AnimeBanner = styled(motion.img)`
   height: 50vh;
   width: 100%;
   object-fit: cover;
+  background-position: 50% 35%;
+  background-repeat: no-repeat;
+  background-size: cover;
+  margin-top: -58px;
 `
 
 export const BackIcon = styled(motion.span)`

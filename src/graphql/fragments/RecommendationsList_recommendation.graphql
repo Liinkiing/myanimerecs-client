@@ -3,6 +3,8 @@ fragment RecommendationsList_recommendation on Anime {
     english
     japanese
   }
+  episodesCount
+  duration
   url
   malId
   bannerImageUrl

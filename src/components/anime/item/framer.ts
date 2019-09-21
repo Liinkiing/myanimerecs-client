@@ -18,7 +18,7 @@ export const initial = {
 
 export const transition = {
   AnimeItemContentContainer: {
-    duration: 0.3
+    duration: 0.2
   } as Transition
 }
 
@@ -55,7 +55,7 @@ export const variants = {
     },
     selected: {
       padding: '40px 40px 0px 40px',
-      marginBottom: '30vh',
+      marginBottom: '25vh',
       fontSize: '32px',
       fontWeight: 700,
       maxHeight: '50vh'

@@ -105,7 +105,7 @@ export type AnimeRelatedRecommendations_RelatedFragment = (
 
 export type RecommendationsList_RecommendationFragment = (
   { readonly __typename?: 'Anime' }
-  & Pick<Anime, 'url' | 'malId' | 'bannerImageUrl' | 'description' | 'slug' | 'imageUrl'>
+  & Pick<Anime, 'episodesCount' | 'duration' | 'url' | 'malId' | 'bannerImageUrl' | 'description' | 'slug' | 'imageUrl'>
   & { readonly title: (
     { readonly __typename?: 'AnimeTitle' }
     & Pick<AnimeTitle, 'english' | 'japanese'>
@@ -155,6 +155,8 @@ export const RecommendationsList_RecommendationFragmentDoc = gql`
     english
     japanese
   }
+  episodesCount
+  duration
   url
   malId
   bannerImageUrl

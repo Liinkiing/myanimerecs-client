@@ -6,13 +6,14 @@ import NeutralLink from 'components/ui/NeutralLink'
 import {
   AnimeBanner,
   AnimeCover,
-  AnimeItemContentContainer,
+  AnimeItemContentContainer, AnimeItemContentHeaderContainer, AnimeItemContentHeaderInformations,
   AnimeItemInner,
   AnimeTitle,
   BackIcon,
   GoToAnimeLink
 } from './styled'
 import {initial, transition, variants, whileHover, whileTap} from './framer'
+import AnimeInformations from 'components/ui/anime/informations'
 
 export const openSpring = {type: "spring", stiffness: 200, damping: 30};
 export const closeSpring = {type: "spring", stiffness: 300, damping: 35};
@@ -98,7 +99,13 @@ const AnimeItem: React.FC<AnimeProps> = ({anime, isSelected, children, ...rest})
         initial={initial.AnimeItemContentContainer}
         variants={variants.AnimeItemContentContainer}
       >
-        <AnimeCover src={anime.imageUrl || '#'}/>
+        <AnimeItemContentHeaderContainer>
+          <AnimeCover src={anime.imageUrl || '#'}/>
+          <AnimeItemContentHeaderInformations>
+            <AnimeInformations anime={anime}/>
+            <AnimeInformations anime={anime}/>
+          </AnimeItemContentHeaderInformations>
+        </AnimeItemContentHeaderContainer>
         <p>{anime.description}</p>
       </AnimeItemContentContainer>
     </AnimeItemInner>
