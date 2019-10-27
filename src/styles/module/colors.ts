@@ -1,3 +1,4 @@
+export const light = '#eeeeee'
 export const dark = '#252c46'
 export const lightDark = '#242b46'
 export const green = '#37be64'

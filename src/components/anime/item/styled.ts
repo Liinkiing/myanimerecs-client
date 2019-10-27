@@ -3,6 +3,7 @@ import NeutralLink from 'components/ui/NeutralLink'
 import {motion} from 'framer-motion'
 import {breakpoint, mbBreakpoint} from 'styles/module/mixins'
 import {AnimeInformationsInner} from 'components/ui/anime/informations/styled'
+import AnimeRecommendationChart from 'components/ui/anime/AnimeRecommendationChart'
 
 export const GoToAnimeLink = styled(NeutralLink).attrs({
   className: 'anime__link'
@@ -57,10 +58,6 @@ export const AnimeItemInner = styled(motion.div)<{ selected: boolean }>`
     width: 100%;
     height: 100%;
     object-fit: cover;
-    filter: blur(20px);
-    ${props => props.selected && css`
-      filter: blur(0);
-    `};
     transform: scale(1.1);
   }
   & > *:not(img) {
@@ -152,7 +149,27 @@ export const BackIcon = styled(motion.span)`
   }
 `
 
-export const AnimeTitle = styled(motion.h2)`
+export const AnimeChart = styled(AnimeRecommendationChart)`
+  position:absolute !important;
+  top: 10px;
+  right: 10px;
+  background: rgba(0,0,0,0.36);
+  backdrop-filter: blur(10px);
+  border-radius: 100%;
+`
+
+export const AnimeTitle = styled(motion.h2)<{selected: boolean}>`
   display: flex;
   align-items: center;
+  justify-content: center;
+  text-align: center;
+  ${props => !props.selected && css`
+    background: rgba(0,0,0,0.39);
+    backdrop-filter: blur(15px);
+    border-bottom-right-radius: 12px;
+    border-bottom-left-radius: 12px;
+  `}
+  &:hover {
+    cursor: pointer;
+  }
 `

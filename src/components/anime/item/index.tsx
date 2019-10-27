@@ -1,12 +1,13 @@
 import React, {useEffect, useRef} from 'react'
 import {motion, useInvertedScale, useMotionValue} from 'framer-motion'
 import {RecommendationsList_RecommendationFragment} from 'graphql/components'
-import AnimeRelatedRecommendations from 'components/recommendations/AnimeRelatedRecommendations'
 import NeutralLink from 'components/ui/NeutralLink'
 import {
-  AnimeBanner,
+  AnimeBanner, AnimeChart,
   AnimeCover,
-  AnimeItemContentContainer, AnimeItemContentHeaderContainer, AnimeItemContentHeaderInformations,
+  AnimeItemContentContainer,
+  AnimeItemContentHeaderContainer,
+  AnimeItemContentHeaderInformations,
   AnimeItemInner,
   AnimeTitle,
   BackIcon,
@@ -72,6 +73,9 @@ const AnimeItem: React.FC<AnimeProps> = ({anime, isSelected, children, ...rest})
       <motion.img className="background" src={anime.imageUrl || ''} alt=""
                   variants={variants.AnimeItemInnerImg}
       />
+      {!isSelected && <AnimeChart score={
+        anime.related.reduce((prev, acc) => prev + acc.score, 0) / anime.related.length
+      }/>}
       <AnimeBanner
         initial={initial.AnimeBanner}
         variants={variants.AnimeBanner}
@@ -86,14 +90,12 @@ const AnimeItem: React.FC<AnimeProps> = ({anime, isSelected, children, ...rest})
         </BackIcon>
       </NeutralLink>
       <AnimeTitle
+        selected={isSelected}
         initial={initial.AnimeTitle}
         variants={variants.AnimeTitle}
       >
         {anime.title.english}
       </AnimeTitle>
-      {!isSelected && anime.related && anime.related.length > 0 &&
-      <AnimeRelatedRecommendations related={anime.related}/>
-      }
       <AnimeItemContentContainer
         transition={transition.AnimeItemContentContainer}
         initial={initial.AnimeItemContentContainer}

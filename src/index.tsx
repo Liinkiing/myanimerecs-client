@@ -2,6 +2,7 @@ import "react-hot-loader"
 import React from "react"
 import ReactDOM from "react-dom"
 import { from } from 'apollo-link'
+import 'donutty'
 import DebounceLink from 'apollo-link-debounce'
 import {ApolloClient, HttpLink, IntrospectionFragmentMatcher} from "apollo-boost"
 import { ApolloProvider } from "react-apollo"

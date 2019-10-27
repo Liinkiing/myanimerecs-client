@@ -4019,6 +4019,11 @@ domutils@^1.5.1, domutils@^1.7.0:
     dom-serializer "0"
     domelementtype "1"
 
+donutty@^1.2.3:
+  version "1.2.3"
+  resolved "https://registry.yarnpkg.com/donutty/-/donutty-1.2.3.tgz#374b15b65fa46eee2aca778628368c0104e0e8c1"
+  integrity sha512-VAVZLM4cCmxUWHtNr78v1hvoVZbv+31xNFNuD23yDBY85s8Dh+2chB3rFabsA3hl/LkeXuX/RKpCwvGUAhuSSQ==
+
 dot-case@^2.1.0:
   version "2.1.1"
   resolved "https://registry.yarnpkg.com/dot-case/-/dot-case-2.1.1.tgz#34dcf37f50a8e93c2b3bca8bb7fb9155c7da3bee"

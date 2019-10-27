@@ -1,4 +1,5 @@
 import {TargetAndTransition, Transition, VariantLabels, Variants} from 'framer-motion'
+import {rgba} from 'polished'
 
 type InitialProps = boolean | VariantLabels | object
 
@@ -24,7 +25,7 @@ export const transition = {
 
 export const variants = {
   AnimeItemInner: {
-    show: {opacity: 0.5, width: 'auto', borderRadius: '3px', overflowY: 'hidden'},
+    show: {opacity: 0.5, width: 'auto', borderRadius: '12px', overflowY: 'hidden'},
     selected: {
       opacity: 1,
       borderRadius: 0, overflowY: 'auto', transition: {
@@ -33,8 +34,8 @@ export const variants = {
     }
   } as Variants,
   AnimeItemInnerImg: {
-    show: {position: 'absolute', scale: 1.1},
-    selected: {position: 'fixed', scale: 1.2}
+    show: {position: 'absolute', filter: 'blur(0)'},
+    selected: {position: 'fixed', filter: 'blur(15px)'}
   } as Variants,
   AnimeBanner: {
     show: {opacity: 0, transition: {delay: 0}, display: 'none'},

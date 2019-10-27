@@ -27,6 +27,7 @@
     "apollo-link": "^1.2.12",
     "apollo-link-debounce": "^2.1.0",
     "cross-env": "^5.2.0",
+    "donutty": "^1.2.3",
     "framer-motion": "^1.6.5",
     "graphql": "^14.5.0",
     "mobx": "^5.13.0",
