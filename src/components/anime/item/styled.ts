@@ -22,7 +22,7 @@ export const AnimeItemInner = styled(motion.div)<{ selected: boolean }>`
   width: 100%;
   height: 100%;
   background: whitesmoke;
-  border-radius: 10px;
+  border-radius: 12px;
   position: relative;
   overflow: hidden;
   display: flex;
@@ -120,6 +120,7 @@ export const AnimeItemContentHeaderContainer = styled.header`
 export const AnimeCover = styled.img`
   border-radius: 6px;
   box-shadow: 0 10px 40px rgba(0,0,0,0.35);
+  width: 225px;
   ${breakpoint('mobile', css`
     width: 126px;
   `)}
@@ -168,6 +169,7 @@ export const AnimeTitle = styled(motion.h2)<{selected: boolean}>`
     backdrop-filter: blur(15px);
     border-bottom-right-radius: 12px;
     border-bottom-left-radius: 12px;
+    border-top: 2px solid rgba(255,255,255,0.17);
   `}
   &:hover {
     cursor: pointer;

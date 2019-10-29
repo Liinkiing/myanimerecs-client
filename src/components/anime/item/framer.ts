@@ -7,6 +7,7 @@ type WhileProps = string | TargetAndTransition
 
 export const initial = {
   AnimeItemInner: {
+    borderRadius: '12px',
     opacity: 0.5
   } as InitialProps,
   AnimeBanner: {
@@ -28,14 +29,14 @@ export const variants = {
     show: {opacity: 0.5, width: 'auto', borderRadius: '12px', overflowY: 'hidden'},
     selected: {
       opacity: 1,
-      borderRadius: 0, overflowY: 'auto', transition: {
+      borderRadius: 0, overflowY: ('overlay' as any), transition: {
         staggerChildren: 0.5
       }
     }
   } as Variants,
   AnimeItemInnerImg: {
     show: {position: 'absolute', filter: 'blur(0)'},
-    selected: {position: 'fixed', filter: 'blur(15px)'}
+    selected: {position: 'fixed', filter: 'blur(15px)', transition: { delay: 0 }}
   } as Variants,
   AnimeBanner: {
     show: {opacity: 0, transition: {delay: 0}, display: 'none'},

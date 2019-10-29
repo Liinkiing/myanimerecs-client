@@ -7,15 +7,14 @@ schema {
 "An Anime"
 type Anime {
   airing: Boolean!
-  bannerImageUrl: String
   broadcast: String
   description: String
   duration: String
   endingThemes: [String!]!
   episodesCount: Int!
-  imageUrl: String
   "Get the associated MyAnimeList ID"
   malId: ID
+  media: AnimeMedia!
   openingThemes: [String!]!
   popularity: Int!
   rank: Int!
@@ -32,6 +31,13 @@ type Anime {
   url: String
 }
 
+"Get an anime media"
+type AnimeMedia {
+  background: String!
+  banner: String
+  poster: String
+}
+
 type AnimeTitle {
   english: String!
   japanese: String!
@@ -43,7 +49,7 @@ type Query {
   "Get the animelist of a user"
   animelist(username: String!): [Anime!]!
   "Get recommendations"
-  recommendations(first: Int = 100, username: String!): [Anime!]!
+  recommendations(limit: Int = 10, offset: Int = 0, username: String!): [Anime!]!
 }
 
 "An Anime recommendation from a viewer perspective that explain why an anime has been recommended"

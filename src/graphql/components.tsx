@@ -23,8 +23,7 @@ export type Anime = {
   readonly malId: Maybe<Scalars['ID']>,
   readonly title: AnimeTitle,
   readonly url: Maybe<Scalars['String']>,
-  readonly imageUrl: Maybe<Scalars['String']>,
-  readonly bannerImageUrl: Maybe<Scalars['String']>,
+  readonly media: AnimeMedia,
   /** Get a list of anime recommendations that explains why the anime has been recommended. */
   readonly related: ReadonlyArray<RelatedAnimeRecommendations>,
   readonly description: Maybe<Scalars['String']>,
@@ -51,6 +50,14 @@ export type AnimeRelatedArgs = {
   first?: Maybe<Scalars['Int']>
 };
 
+/** Get an anime media */
+export type AnimeMedia = {
+  __typename?: 'AnimeMedia',
+  readonly background: Scalars['String'],
+  readonly banner: Maybe<Scalars['String']>,
+  readonly poster: Maybe<Scalars['String']>,
+};
+
 export type AnimeTitle = {
   __typename?: 'AnimeTitle',
   readonly english: Scalars['String'],
@@ -75,7 +82,8 @@ export type QueryAnimelistArgs = {
 
 export type QueryRecommendationsArgs = {
   username: Scalars['String'],
-  first?: Maybe<Scalars['Int']>
+  offset?: Maybe<Scalars['Int']>,
+  limit?: Maybe<Scalars['Int']>
 };
 
 
@@ -105,10 +113,13 @@ export type AnimeRelatedRecommendations_RelatedFragment = (
 
 export type RecommendationsList_RecommendationFragment = (
   { readonly __typename?: 'Anime' }
-  & Pick<Anime, 'episodesCount' | 'duration' | 'url' | 'malId' | 'bannerImageUrl' | 'description' | 'slug' | 'imageUrl'>
+  & Pick<Anime, 'episodesCount' | 'duration' | 'url' | 'malId' | 'description' | 'slug'>
   & { readonly title: (
     { readonly __typename?: 'AnimeTitle' }
     & Pick<AnimeTitle, 'english' | 'japanese'>
+  ), readonly media: (
+    { readonly __typename?: 'AnimeMedia' }
+    & Pick<AnimeMedia, 'background' | 'poster' | 'banner'>
   ), readonly related: ReadonlyArray<{ readonly __typename?: 'RelatedAnimeRecommendations' }
     & AnimeRelatedRecommendations_RelatedFragment
   > }
@@ -128,7 +139,8 @@ export type AnimeDetailQuery = (
 
 export type RecommendationsQueryVariables = {
   username: Scalars['String'],
-  first: Maybe<Scalars['Int']>
+  limit: Maybe<Scalars['Int']>,
+  offset: Maybe<Scalars['Int']>
 };
 
 
@@ -159,10 +171,13 @@ export const RecommendationsList_RecommendationFragmentDoc = gql`
   duration
   url
   malId
-  bannerImageUrl
   description
   slug
-  imageUrl
+  media {
+    background
+    poster
+    banner
+  }
   related {
     ...AnimeRelatedRecommendations_related
   }
@@ -203,8 +218,8 @@ export function withAnimeDetail<TProps, TChildProps = {}>(operationOptions?: Apo
 export type AnimeDetailQueryHookResult = ReturnType<typeof useAnimeDetailQuery>;
 export type AnimeDetailQueryResult = ApolloReactCommon.QueryResult<AnimeDetailQuery, AnimeDetailQueryVariables>;
 export const RecommendationsDocument = gql`
-    query Recommendations($username: String!, $first: Int) {
-  recommendations(username: $username, first: $first) {
+    query Recommendations($username: String!, $limit: Int, $offset: Int) {
+  recommendations(username: $username, limit: $limit, offset: $offset) @connection(key: "recommendations") {
     ...RecommendationsList_recommendation
   }
 }

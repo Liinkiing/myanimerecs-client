@@ -1,5 +1,5 @@
-query Recommendations($username: String!, $first: Int) {
-  recommendations(username: $username, first: $first) {
+query Recommendations($username: String!, $limit: Int, $offset: Int) {
+  recommendations(username: $username, limit: $limit, offset: $offset) @connection(key: "recommendations") {
     ...RecommendationsList_recommendation
   }
 }

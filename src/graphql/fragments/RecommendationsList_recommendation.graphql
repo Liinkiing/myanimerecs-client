@@ -7,10 +7,13 @@ fragment RecommendationsList_recommendation on Anime {
   duration
   url
   malId
-  bannerImageUrl
   description
   slug
-  imageUrl
+  media {
+    background
+    poster
+    banner
+  }
   related {
     ...AnimeRelatedRecommendations_related
   }

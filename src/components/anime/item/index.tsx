@@ -70,7 +70,7 @@ const AnimeItem: React.FC<AnimeProps> = ({anime, isSelected, children, ...rest})
       variants={variants.AnimeItemInner}
       key={anime.malId!}>
       {!isSelected && <GoToAnimeLink to={`/anime/${anime.slug}`}/>}
-      <motion.img className="background" src={anime.imageUrl || ''} alt=""
+      <motion.img className="background" src={anime.media.background || ''} alt=""
                   variants={variants.AnimeItemInnerImg}
       />
       {!isSelected && <AnimeChart score={
@@ -79,7 +79,7 @@ const AnimeItem: React.FC<AnimeProps> = ({anime, isSelected, children, ...rest})
       <AnimeBanner
         initial={initial.AnimeBanner}
         variants={variants.AnimeBanner}
-        src={anime.bannerImageUrl!}
+        src={anime.media.banner!}
       />
       <NeutralLink className="close-button" to="/">
         <BackIcon
@@ -102,9 +102,8 @@ const AnimeItem: React.FC<AnimeProps> = ({anime, isSelected, children, ...rest})
         variants={variants.AnimeItemContentContainer}
       >
         <AnimeItemContentHeaderContainer>
-          <AnimeCover src={anime.imageUrl || '#'}/>
+          <AnimeCover src={anime.media.poster || anime.media.background}/>
           <AnimeItemContentHeaderInformations>
-            <AnimeInformations anime={anime}/>
             <AnimeInformations anime={anime}/>
           </AnimeItemContentHeaderInformations>
         </AnimeItemContentHeaderContainer>
