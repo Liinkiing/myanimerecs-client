@@ -68,7 +68,7 @@ const RecommendationsList = React.memo<RecommendationListProps>(({recommendation
       </motion.div>
     </InfiniteScroll>
   )
-})
+}, (prevProps, nextProps) => prevProps.recommendations.length === nextProps.recommendations.length)
 
 
 const SearchInput = styled.input`

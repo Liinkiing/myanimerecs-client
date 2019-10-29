@@ -31,11 +31,12 @@ const AnimeRecommendationChart: React.FC<Props> = ({score, ...rest}) => {
         color,
         bg: 'white',
         text( state: any ) {
-          return Math.floor(( state.value / ( state.max - state.min ) * 100 ));
+          const score = state.value / (state.max - state.min) * 100
+          return score === 0 ? '?' : Math.floor(score);
         },
         min: 0,
         max: 100,
-        value: score,
+        value: isNaN(score) ? 0 : score,
         radius: 18,
         thickness: 4,
         padding: 2
