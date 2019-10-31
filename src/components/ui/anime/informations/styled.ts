@@ -1,5 +1,4 @@
-import styled, {css} from 'styled-components/macro'
-import {breakpoint} from 'styles/module/mixins'
+import styled from 'styled-components/macro'
 
 export const AnimeInformationsInner = styled.div`
   padding: 20px;

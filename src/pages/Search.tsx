@@ -1,10 +1,10 @@
-import React, {useEffect, useRef, useState} from 'react'
+import React, {useEffect, useRef} from 'react'
 import styled from 'styled-components/macro'
 import RecommendationsForm from 'components/recommendations/RecommendationsForm'
 import {useRecommendationsLazyQuery} from 'graphql/components'
 import AppStore from 'store/AppStore'
 import RecommendationsList from 'components/recommendations/RecommendationsList'
-import { useHistory, useLocation } from 'react-router-dom'
+import {useHistory, useLocation} from 'react-router-dom'
 
 const SearchInner = styled.div`
   
@@ -14,7 +14,7 @@ const Search: React.FC = () => {
   const history = useHistory()
   const { search } = useLocation()
   const params = useRef<{ query: string }>({ query: '' })
-  const [getRecommendations, {fetchMore, loading, data, networkStatus}] = useRecommendationsLazyQuery({
+  const [getRecommendations, {fetchMore, loading, data}] = useRecommendationsLazyQuery({
     notifyOnNetworkStatusChange: true
   })
 
@@ -32,7 +32,7 @@ const Search: React.FC = () => {
       })
       AppStore.setHasSearched(true)
     }
-  }, [search])
+  }, [getRecommendations, search])
 
   const onSearch = (username: string) => {
     window.scrollTo({
@@ -67,7 +67,7 @@ const Search: React.FC = () => {
   return (
     <SearchInner>
       <RecommendationsForm username={params.current.query} onSearch={onSearch} disabled={loading}/>
-      <RecommendationsList recommendations={data && data.recommendations || []} onLoadMore={onLoadMore}/>
+      <RecommendationsList recommendations={data && data.recommendations ? data.recommendations : []} onLoadMore={onLoadMore}/>
     </SearchInner>
   )
 }

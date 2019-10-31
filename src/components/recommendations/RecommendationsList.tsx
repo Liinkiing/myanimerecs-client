@@ -52,7 +52,7 @@ const RecommendationsList: React.FC<RecommendationListProps> = ({recommendations
       >
 
         {recommendations.map((recommendation, i) =>
-          <div className={getClassnames(i).join(' ') + ' anime'} key={recommendation.malId!}>
+          <RecommendationListGridItem className={getClassnames(i).join(' ')} key={recommendation.malId!}>
             <AnimeItem
               onBack={() => {
                 history.push('/')
@@ -63,7 +63,7 @@ const RecommendationsList: React.FC<RecommendationListProps> = ({recommendations
               isSelected={pathname.includes(recommendation.slug)}
               anime={recommendation}
             />
-          </div>
+          </RecommendationListGridItem>
         )}
       </motion.div>
     </InfiniteScroll>

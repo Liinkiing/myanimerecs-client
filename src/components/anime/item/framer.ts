@@ -1,5 +1,4 @@
 import {TargetAndTransition, Transition, VariantLabels, Variants} from 'framer-motion'
-import {rgba} from 'polished'
 
 type InitialProps = boolean | VariantLabels | object
 

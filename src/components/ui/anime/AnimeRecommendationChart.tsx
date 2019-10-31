@@ -22,7 +22,7 @@ const MAPPING_COLORS = ['red', 'yellow', 'green']
 
 const AnimeRecommendationChart: React.FC<Props> = ({score, ...rest}) => {
   const ref = useRef<HTMLDivElement | null>(null)
-  const color = useMemo(() => MAPPING_COLORS[Math.floor(mapRange(score, 0, 100, 0, 3))], [])
+  const color = useMemo(() => MAPPING_COLORS[Math.floor(mapRange(score, 0, 100, 0, 3))], [score])
   const donutty = useRef(null)
   useEffect(() => {
     if (ref.current) {
@@ -42,7 +42,7 @@ const AnimeRecommendationChart: React.FC<Props> = ({score, ...rest}) => {
         padding: 2
       });
     }
-  }, [])
+  }, [color, score])
   return (
     <AnimeRecommendationChartInner ref={ref} {...rest}/>
   )
