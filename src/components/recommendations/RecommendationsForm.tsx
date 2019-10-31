@@ -8,6 +8,7 @@ import {breakpoint} from 'styles/module/mixins'
 
 interface Props {
   readonly onSearch?: (username: string) => void,
+  readonly username?: string,
   readonly disabled?: boolean,
 }
 
@@ -63,12 +64,12 @@ const SearchContainer = styled(motion.div)`
   `)}
 `
 
-const RecommendationsForm: React.FC<Props> = ({onSearch, disabled}) => {
-  const username = useInput('')
+const RecommendationsForm: React.FC<Props> = ({username, onSearch, disabled}) => {
+  const usernameInput = useInput(username)
 
   const onFormSubmit: FormEventHandler = (e => {
     e.preventDefault()
-    onSearch && onSearch(username.value)
+    onSearch && onSearch(usernameInput.value!)
   })
 
 
@@ -90,8 +91,8 @@ const RecommendationsForm: React.FC<Props> = ({onSearch, disabled}) => {
       >
         <SearchInput
           disabled={disabled}
-          placeholder="Entrez un pseudo MyAnimeList..." type="text" {...username}/>
-        {disabled ? <Loader/> : <SearchButton disabled={username.value.length === 0 || disabled} type="submit">
+          placeholder="Entrez un pseudo MyAnimeList..." type="text" {...usernameInput}/>
+        {disabled ? <Loader/> : <SearchButton disabled={usernameInput.value!.length === 0 || disabled} type="submit">
           <img src={require('assets/icons/search.svg')} alt=""/>
         </SearchButton>}
       </SearchContainer>
@@ -100,7 +101,8 @@ const RecommendationsForm: React.FC<Props> = ({onSearch, disabled}) => {
 }
 
 RecommendationsForm.defaultProps = {
-  disabled: false
+  disabled: false,
+  username: ''
 }
 
 export default RecommendationsForm
