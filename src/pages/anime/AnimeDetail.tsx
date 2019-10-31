@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components/macro'
-import {RouteComponentProps} from '@reach/router'
+import {RouteComponentProps} from 'react-router-dom'
 import {useAnimeDetailQuery} from 'graphql/components'
 
 const AnimeDetailInner = styled.div`
@@ -10,9 +10,9 @@ const AnimeDetailInner = styled.div`
 interface Props extends RouteComponentProps<{ slug: string }> {
 }
 
-const AnimeDetail: React.FC<Props> = ({slug}) => {
+const AnimeDetail: React.FC<Props> = ({match}) => {
   const {data, loading} = useAnimeDetailQuery({
-    variables: {slug: slug!}
+    variables: {slug: match.params.slug!}
   })
   if (loading) {
     return <div>Loading...</div>

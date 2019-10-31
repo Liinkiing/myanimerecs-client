@@ -1,17 +1,16 @@
 import React, {useEffect, useRef} from 'react'
 import {motion, useInvertedScale, useMotionValue} from 'framer-motion'
 import {RecommendationsList_RecommendationFragment} from 'graphql/components'
-import NeutralLink from 'components/ui/NeutralLink'
 import {
-  AnimeBanner, AnimeChart,
+  AnimeBanner,
+  AnimeChart,
   AnimeCover,
   AnimeItemContentContainer,
   AnimeItemContentHeaderContainer,
   AnimeItemContentHeaderInformations,
   AnimeItemInner,
   AnimeTitle,
-  BackIcon,
-  GoToAnimeLink
+  BackIcon
 } from './styled'
 import {initial, transition, variants, whileHover, whileTap} from './framer'
 import AnimeInformations from 'components/ui/anime/informations'
@@ -22,9 +21,11 @@ export const closeSpring = {type: "spring", stiffness: 300, damping: 35};
 interface AnimeProps extends Pick<React.HTMLAttributes<HTMLElement>, 'className'> {
   readonly anime: RecommendationsList_RecommendationFragment,
   readonly isSelected: boolean,
+  readonly onBack?: () => void,
+  readonly onSelect?: () => void,
 }
 
-const AnimeItem: React.FC<AnimeProps> = ({anime, isSelected, children, ...rest}) => {
+const AnimeItem = React.memo<AnimeProps>(({anime, isSelected, onBack, onSelect, children, ...rest}) => {
   const zIndex = useMotionValue(isSelected ? 2 : 0);
   const {scaleX, scaleY} = useInvertedScale()
   const item = useRef<HTMLDivElement>(null)
@@ -58,6 +59,9 @@ const AnimeItem: React.FC<AnimeProps> = ({anime, isSelected, children, ...rest})
   return (
     <AnimeItemInner
       {...rest}
+      onClick={() => {
+        onSelect && !isSelected && onSelect()
+      }}
       ref={item}
       selected={isSelected}
       style={{zIndex, scaleX, scaleY}}
@@ -69,7 +73,6 @@ const AnimeItem: React.FC<AnimeProps> = ({anime, isSelected, children, ...rest})
       initial={initial.AnimeItemInner}
       variants={variants.AnimeItemInner}
       key={anime.malId!}>
-      {!isSelected && <GoToAnimeLink to={`/anime/${anime.slug}`}/>}
       <motion.img className="background" src={anime.media.background || ''} alt=""
                   variants={variants.AnimeItemInnerImg}
       />
@@ -81,14 +84,13 @@ const AnimeItem: React.FC<AnimeProps> = ({anime, isSelected, children, ...rest})
         variants={variants.AnimeBanner}
         src={anime.media.banner!}
       />
-      <NeutralLink className="close-button" to="/">
         <BackIcon
+          onClick={onBack ? onBack : () => {}}
           initial={initial.BackIcon}
           variants={variants.BackIcon}
         >
           <img src={require('assets/icons/back.svg')} alt=""/>
         </BackIcon>
-      </NeutralLink>
       <AnimeTitle
         selected={isSelected}
         initial={initial.AnimeTitle}
@@ -111,6 +113,6 @@ const AnimeItem: React.FC<AnimeProps> = ({anime, isSelected, children, ...rest})
       </AnimeItemContentContainer>
     </AnimeItemInner>
   )
-}
+}, (prevProps, nextProps) => prevProps.isSelected === nextProps.isSelected)
 
 export default AnimeItem

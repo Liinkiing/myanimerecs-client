@@ -56,7 +56,7 @@ export const variants = {
       maxHeight: '100%'
     },
     selected: {
-      padding: '40px 40px 0px 40px',
+      padding: '40px 60px 0px 60px',
       marginBottom: '25vh',
       fontSize: '32px',
       fontWeight: 700,

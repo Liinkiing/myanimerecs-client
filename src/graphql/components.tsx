@@ -219,7 +219,7 @@ export type AnimeDetailQueryHookResult = ReturnType<typeof useAnimeDetailQuery>;
 export type AnimeDetailQueryResult = ApolloReactCommon.QueryResult<AnimeDetailQuery, AnimeDetailQueryVariables>;
 export const RecommendationsDocument = gql`
     query Recommendations($username: String!, $limit: Int, $offset: Int) {
-  recommendations(username: $username, limit: $limit, offset: $offset) @connection(key: "recommendations") {
+  recommendations(username: $username, limit: $limit, offset: $offset) {
     ...RecommendationsList_recommendation
   }
 }

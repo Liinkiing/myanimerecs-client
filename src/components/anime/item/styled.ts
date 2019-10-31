@@ -2,7 +2,6 @@ import styled, {css} from 'styled-components/macro'
 import NeutralLink from 'components/ui/NeutralLink'
 import {motion} from 'framer-motion'
 import {breakpoint, mbBreakpoint} from 'styles/module/mixins'
-import {AnimeInformationsInner} from 'components/ui/anime/informations/styled'
 import AnimeRecommendationChart from 'components/ui/anime/AnimeRecommendationChart'
 
 export const GoToAnimeLink = styled(NeutralLink).attrs({
@@ -27,9 +26,6 @@ export const AnimeItemInner = styled(motion.div)<{ selected: boolean }>`
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  & a.close-button {
-    z-index: 10;
-  }
   &:after {
       transition: opacity 1.5s ease-in-out;
       content: '';
@@ -76,6 +72,11 @@ export const AnimeItemInner = styled(motion.div)<{ selected: boolean }>`
     overflow: hidden;
     height: 100%;
     width: 100%;
+  `}
+  ${props => !props.selected && css`
+    &:hover {
+      cursor: pointer;
+    }
   `}
 `
 
@@ -137,16 +138,21 @@ export const AnimeBanner = styled(motion.img)`
   margin-top: -58px;
 `
 
-export const BackIcon = styled(motion.span)`
-  width: 16px;
-  height: 16px;
+export const BackIcon = styled(motion.div)`
   margin-right: 10px;
-  position: fixed;
-  top: 48px;
-  left: 10px;
+  z-index: 10 !important;
+  position: fixed !important;
+  top: 24px;
+  left: 0;
+  padding: 20px;
+  width: 60px;
+  height: 60px;
   & > img {
     width: 100%;
     height: 100%;
+  }
+  &:hover {
+    cursor: pointer;
   }
 `
 
@@ -164,6 +170,7 @@ export const AnimeTitle = styled(motion.h2)<{selected: boolean}>`
   align-items: center;
   justify-content: center;
   text-align: center;
+  margin-top: auto;
   ${props => !props.selected && css`
     background: rgba(0,0,0,0.39);
     backdrop-filter: blur(15px);
@@ -171,7 +178,4 @@ export const AnimeTitle = styled(motion.h2)<{selected: boolean}>`
     border-bottom-left-radius: 12px;
     border-top: 2px solid rgba(255,255,255,0.17);
   `}
-  &:hover {
-    cursor: pointer;
-  }
 `

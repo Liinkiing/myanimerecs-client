@@ -2,9 +2,8 @@ import {hot} from "react-hot-loader/root"
 import {setConfig} from 'react-hot-loader';
 import React, {FC} from "react"
 import styled from "styled-components/macro"
-import {Router} from '@reach/router'
+import {BrowserRouter as Router, Route, Switch} from 'react-router-dom'
 import Index from 'pages/Index'
-import Route from 'components/Route'
 import About from 'pages/About'
 import AnimeDetail from 'pages/anime/AnimeDetail'
 import AppStore from 'store/AppStore'
@@ -38,17 +37,19 @@ const AppInner = styled.div`
 
 const App: FC = () => {
   return (
-    <AppInner>
-      <header>
-      </header>
-      <main>
-        <Router>
-          {!AppStore.hasSearched && <Route component={AnimeDetail} path="/anime/:slug"/>}
-          <Route component={Index} path="/*"/>
-          <Route component={About} path="/about"/>
-        </Router>
-      </main>
-    </AppInner>
+    <Router>
+      <AppInner>
+        <header>
+        </header>
+        <main>
+          <Switch>
+            {!AppStore.hasSearched && <Route exact path="/anime/:slug" component={AnimeDetail}/>}
+            <Route exact path="/about" component={About}/>
+            <Route path="/*" component={Index}/>
+          </Switch>
+        </main>
+      </AppInner>
+    </Router>
   );
 }
 
